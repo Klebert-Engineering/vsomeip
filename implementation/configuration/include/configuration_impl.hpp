@@ -245,6 +245,10 @@ private:
             std::set<std::string> &_failed,
             bool _mandatory_only);
 
+    void read_android_internal_data(const std::set<std::string> &_input,
+            std::vector<configuration_element> &_elements,
+            std::set<std::string> &_failed);
+
     bool load_data(const std::vector<configuration_element> &_elements,
             bool _load_mandatory, bool _load_optional);
 

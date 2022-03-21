@@ -18,6 +18,16 @@ set (VSOMEIP_VERSION ${VSOMEIP_MAJOR_VERSION}.${VSOMEIP_MINOR_VERSION}.${VSOMEIP
 set (PACKAGE_VERSION ${VSOMEIP_VERSION}) # Used in documentation/doxygen.in
 set (CMAKE_VERBOSE_MAKEFILE off)
 
+# Configure vsomeip for Android without config files
+option (SOMEIP_ANDROID_STATIC_CONFIGURATION OFF)
+if (NOT SOMEIP_ANDROID_STATIC_IP)
+    set(SOMEIP_ANDROID_STATIC_IP "127.0.0.2")
+endif()
+
+configure_file("${PROJECT_SOURCE_DIR}/implementation/configuration/src/configuration_impl.cpp.in"
+               "${PROJECT_SOURCE_DIR}/implementation/configuration/src/configuration_impl.cpp"
+               @ONLY)
+
 if (NOT GTEST_ROOT)
     if (DEFINED ENV{GTEST_ROOT})
         set(GTEST_ROOT $ENV{GTEST_ROOT})
@@ -274,7 +284,7 @@ file(GLOB ${VSOMEIP_NAME}_SRC
     "implementation/utility/src/*.cpp"
 )
 if (VSOMEIP_ENABLE_MULTIPLE_ROUTING_MANAGERS EQUAL 1)
-list(APPEND ${VSOMEIP_NAME}_SRC "implementation/configuration/src/configuration_impl.cpp")
+list(APPEND ${VSOMEIP_NAME}_SRC "${CMAKE_BINARY_DIR}/implementation/configuration/src/configuration_impl.cpp")
 endif()
 list(SORT ${VSOMEIP_NAME}_SRC)
 
