@@ -275,6 +275,7 @@ bool configuration_impl::load(const std::string &_name) {
 #ifdef SOMEIP_ANDROID_STATIC_CONFIGURATION
     read_android_internal_data(its_input, its_mandatory_elements, its_failed);
 #else
+    VSOMEIP_ERROR << "In-file config is not activated!";
     read_data(its_input, its_mandatory_elements, its_failed, true);
 #endif
     load_data(its_mandatory_elements, true, false);
@@ -448,11 +449,13 @@ void configuration_impl::read_android_internal_data(const std::set<std::string> 
 "    \"request_response_delay\" : \"1500\"\n"
 "  }\n"
 "}";
+        VSOMEIP_INFO << config;
         std::istringstream conf_stream(config);
         boost::property_tree::json_parser::read_json(conf_stream, its_tree);
         _elements.push_back({ "/storage/internal_vsomeip_conf.json", its_tree });
     }
     catch (boost::property_tree::json_parser_error &e) {
+        VSOMEIP_ERROR << "In-file config failed!";
         _failed.insert("/storage/internal_vsomeip_conf.json");
     }
 }
