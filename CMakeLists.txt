@@ -20,6 +20,9 @@ set (CMAKE_VERBOSE_MAKEFILE off)
 
 # Configure vsomeip for Android without config files
 option (SOMEIP_ANDROID_STATIC_CONFIGURATION OFF)
+if (SOMEIP_ANDROID_STATIC_CONFIGURATION)
+    add_compile_definitions(SOMEIP_ANDROID_STATIC_CONFIGURATION)
+endif()
 if (NOT SOMEIP_ANDROID_STATIC_IP)
     set(SOMEIP_ANDROID_STATIC_IP "127.0.0.2")
 endif()
